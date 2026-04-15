@@ -1,14 +1,10 @@
-# Phase-Amplitude Encoding 
+# SPID: a spectral partial information decomposition framework for quantifying information about cognitive variables in oscillatory brain networks 
 
-This repository investigates the role of **phase and amplitude encoding of stimuli in neuronal dynamics**, with a focus on oscillator-based models. The project uses numerical simulations and statistical analyses to study how phase and amplitude variables contribute to information encoding and inter-areal communication in neural systems.
+Spectral Partial Information Decomposition (SPID) combines frequency-domain mutual information with Partial Information Decomposition to disentangle oscillatory interactions into unique, redundant, and synergistic information about cognitive variables. This repository contains code and notebooks to validate SPID on Kuramoto and Stuart–Landau oscillator networks, including a whole-brain model constrained by macaque anatomical connectivity. SPID further extends this decomposition to higher-order functional interactions, beyond pairwise relations, enabling the characterization of how cognitive information is collectively distributed across multiple oscillatory edges via redundant and synergistic encoding. We also illustrate biological applicability, by appliying SPID to local field potentials (LFPs) recorded from the macaque fronto-parietal network during a working memory task. 
 
----
+See accompanying paper:
 
-## Scientific Motivation
-
-Neuronal activity is inherently oscillatory, and neural signals are commonly characterized by their **phase** and **amplitude**. While phase-only models capture synchronization and timing relationships, they neglect amplitude fluctuations that play a central role in stimulus encoding and cross-frequency interactions. In particular, **phase–amplitude relationships** have been widely observed in electrophysiological recordings and are thought to support neural communication and information transfer.
-
-This project explores these ideas using **Hopf oscillator dynamics**, which naturally incorporate both amplitude and phase degrees of freedom. By simulating coupled systems and computing relevant statistics, the repository aims to clarify how phase and amplitude jointly encode information in neural signals.
+Add link
 
 ---
 
