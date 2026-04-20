@@ -107,7 +107,7 @@ def simulate(
             + dt * _ode(phases_t, a, omegas)
             + Input
             + eta * randn(size=(N,), seed=seed + t)
-            + eta * 1j * randn(size=(N,), seed=seed + t + 2 * t)
+            + eta * 1j * randn(size=(N,), seed=seed + t + T)
         )
 
         carry = jax.lax.reshape(phases_history, (N, 1))
@@ -231,7 +231,8 @@ def simulate_kuramoto(
 
     _, phases = jax.lax.scan(_loop, (phases_history, init_key), times)
 
-    phases_fft = jnp.fft.fft(jnp.sin(phases), n=T, axis=0)
-    phases = jnp.fft.ifft(phases_fft, axis=0).real
+    # phases_fft = jnp.fft.fft(jnp.sin(phases), n=T, axis=0)
+    # phases = jnp.fft.ifft(phases_fft, axis=0).real
+    phases = jnp.sin(phases)
 
     return phases[::decim].squeeze().T
