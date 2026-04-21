@@ -2,7 +2,6 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 from .models_setup import _set_nodes, _set_nodes_delayed
-from .utils import randn
 from functools import partial
 
 jax.config.update("jax_enable_x64", True)
@@ -21,6 +20,33 @@ def _ode(Z: np.complex128, a: float, w: float):
     return Z * (a + 1j * w - jnp.abs(Z) ** 2)
 
 
+@jax.jit
+def _hopf_scan(phases_history, init_key, times, A, g, Iext, dt, omegas, a, eta):
+    # Module-level so the XLA executable is compiled once and cached across calls
+    # with the same abstract shapes — same benefit as _kuramoto_scan.
+    def _loop(carry, t):
+        phases_history, key = carry
+        phases_t = phases_history.squeeze().copy()
+        phase_differences = phases_t - phases_history
+        N = phases_t.shape[0]
+        key = jax.random.fold_in(key, t)
+        key_real, key_imag = jax.random.split(key)
+        noise_real = jax.random.normal(key_real, (N,))
+        noise_imag = jax.random.normal(key_imag, (N,))
+        Input = g[t] * (A * phase_differences).sum(axis=1) + Iext[:, t]
+        phases_history = phases_history.at[:, 0].set(
+            phases_t
+            + dt * _ode(phases_t, a, omegas)
+            + Input
+            + eta * noise_real
+            + eta * 1j * noise_imag
+        )
+        carry = (jax.lax.reshape(phases_history, (N, 1)), key)
+        return carry, phases_history
+
+    return jax.lax.scan(_loop, (phases_history, init_key), times)
+
+
 def simulate(
     A: np.ndarray,
     g: float,
@@ -28,7 +54,7 @@ def simulate(
     a: float,
     fs: float,
     eta: float,
-    T: float,
+    T: int,
     Iext: np.ndarray = None,
     seed: int = 0,
     device: str = "cpu",
@@ -51,7 +77,7 @@ def simulate(
         Sampling frequency.
     eta : float
         Noise intensity.
-    T : float
+    T : int
         Total simulation time in discrete steps.
     Iext : np.ndarray, optional
         External input to the oscillators (default is None, meaning no input).
@@ -81,39 +107,20 @@ def simulate(
 
     g = _check_params(g, T).squeeze()
     eta = _check_params(eta, N).squeeze()
-    Iext = _check_params(Iext, N)
+    Iext = _check_params(Iext, T)
 
     times = np.arange(T, dtype=int)  # Time array
 
-    # Scale with dt to avoid doing it evert time-step
+    # Scale with dt to avoid doing it every time-step
     A = A * dt
     eta = eta * jnp.sqrt(dt)
     Iext = Iext * dt
 
-    # @jax.jit
-    def _loop(carry, t):
+    init_key = jax.random.PRNGKey(seed)
 
-        phases_history = carry
-
-        phases_t = phases_history.squeeze().copy()
-
-        phase_differences = phases_t - phases_history
-
-        # Input to each node
-        Input = g[t] * (A * phase_differences).sum(axis=1) + Iext[:, t]
-
-        phases_history = phases_history.at[:, 0].set(
-            phases_t
-            + dt * _ode(phases_t, a, omegas)
-            + Input
-            + eta * randn(size=(N,), seed=seed + t)
-            + eta * 1j * randn(size=(N,), seed=seed + t + T)
-        )
-
-        carry = jax.lax.reshape(phases_history, (N, 1))
-        return carry, phases_history
-
-    _, phases = jax.lax.scan(_loop, (phases_history), times)
+    _, phases = _hopf_scan(
+        phases_history, init_key, times, A, g, Iext, dt, omegas, a, eta
+    )
 
     return phases[::decim].squeeze().T
 
