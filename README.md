@@ -1,17 +1,11 @@
-# SPID: Spectral Partial Information Decomposition
+# NeOPID: Neural Oscillatory Partial Information Decomposition
 
-Spectral Partial Information Decomposition (SPID) combines frequency-domain
-mutual information with Partial Information Decomposition (PID) to decompose
-oscillatory interactions between brain regions into unique, redundant, and
-synergistic components with respect to a cognitive variable. This repository
-contains the code and notebooks accompanying the paper:
+Neural Oscillatory Partial Information Decomposition (NeOPID) can be used to break down information about about cognitive variables in neural oscillations into power/phase contributions and to quantify redundant and synergistic information in brain relations, from pairwise to higher-order interactions.NeOPID
+This repository contains the code and notebooks accompanying the paper:
 
 > *citation / DOI — to be added*
 
-SPID is validated on Kuramoto and Stuart–Landau oscillator networks, extended
-to a whole-brain model constrained by macaque anatomical connectivity (Markov
-et al., 2014), and applied to local field potentials (LFPs) recorded from the
-macaque fronto-parietal network during a working memory task.
+We validated the approach on Kuramoto and Stuart–Landau oscillator networks, including a whole-brain model constrained by macaque anatomical connectivity. NeOPID accurately recovers ground-truth encoding schemes and reveals that phase relations and amplitude co-modulations act as complementary coding channels with both redundant and synergistic components. NeOPID further extends this decomposition to higher-order functional interactions, beyond pairwise relations, enabling the characterization of how cognitive information is collectively distributed across multiple oscillatory edges via redundant and synergistic encoding. To illustrate biological applicability, we applied NeOPID to local field potentials (LFPs) recorded from the macaque fronto-parietal network during a working memory task. In this dataset, NeOPID identified beta-band amplitude co-modulations as the primary carrier of stimulus information, and revealed that higher-order phase interactions exhibit both redundant and synergistic structure during the memory delay.
 
 ---
 
