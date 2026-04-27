@@ -18,24 +18,26 @@ macaque fronto-parietal network during a working memory task.
 ## Repository layout
 
 ```
-spid/
-├── notebooks/          # Figure notebooks (Figure1–Figure5_6) + helpers
+neopid/
+├── notebooks/          # Figure notebooks (Figure1–Figure6_7) + helpers
 │   ├── Figure1.ipynb
 │   ├── Figure2.ipynb
 │   ├── Figure3.ipynb
-│   ├── Figure4.ipynb
-│   ├── Figure5_6.ipynb
+│   ├── Figure4_5.ipynb
+│   ├── Figure6_7.ipynb
 │   ├── plot.py         # Shared plotting utilities
 │   ├── session.py      # GrayLab session loader
 │   └── run.sh          # Convenience wrapper
 ├── src/                # Shared Python modules
 │   ├── models.py       # Kuramoto and Stuart–Landau simulators
 │   ├── models_setup.py # Parameter setup and initialisation
-│   └── utils.py        # RNG and general utilities
+│   ├── utils.py        # RNG and general utilities
+│   └── flatmap/        # Macaque cortical flatmap plotting utilities
 ├── interareal/         # Macaque structural connectivity (Markov et al., 2014)
 ├── data/               # Additional connectivity data
 ├── figures/            # Output directory — PDFs written here by notebooks
 ├── paper/              # Manuscript PDF
+├── LICENSE             # BSD 3-Clause
 └── README.md
 ```
 
@@ -43,7 +45,7 @@ spid/
 
 ## Installation
 
-A Python 3.10 environment with the following packages is required:
+A Python 3.10+ environment with the following packages is required:
 
 ```bash
 pip install numpy scipy matplotlib xarray tqdm joblib scikit-learn \
@@ -54,7 +56,7 @@ pip install numpy scipy matplotlib xarray tqdm joblib scikit-learn \
 
 ## Reproducing the figures
 
-Each `FigureXX.ipynb` notebook is a self-contained, deterministic pipeline.
+Each notebook is a self-contained, deterministic pipeline.
 Run all cells top-to-bottom; outputs are written to `figures/`.
 
 | Notebook | Output | What it shows |
@@ -62,11 +64,11 @@ Run all cells top-to-bottom; outputs are written to `figures/`.
 | `Figure1.ipynb` | `figures/Figure1.pdf` | Two-node Kuramoto model: coherence and MI as a function of coupling strength |
 | `Figure2.ipynb` | `figures/Figure2.pdf` | Phase–amplitude encoding in a two-node Stuart–Landau model |
 | `Figure3.ipynb` | `figures/Figure3.pdf` | PID decomposition (redundancy, synergy, unique) in a two-node oscillator |
-| `Figure4.ipynb` | `figures/Figure4.pdf` | Whole-brain Stuart–Landau model: pairwise and higher-order (2- and 3-plet) PID |
-| `Figure5_6.ipynb` | `figures/Figure5.pdf`, `figures/Figure6.pdf` | LFP recordings: pairwise and higher-order PID in macaque fronto-parietal cortex |
+| `Figure4_5.ipynb` | `figures/Figure4.pdf`, `figures/Figure5.pdf` | Whole-brain Stuart–Landau model: pairwise and higher-order (2- and 3-plet) PID |
+| `Figure6_7.ipynb` | `figures/Figure6.pdf`, `figures/Figure7.pdf` | LFP recordings: pairwise and higher-order PID in macaque fronto-parietal cortex |
 
-> **Note for Figure5_6.ipynb:** this notebook requires access to the GrayLab LFP
-> dataset, which is not distributed with this repository. Set the path in cell 11
+> **Note for Figure6_7.ipynb:** this notebook requires access to the GrayLab LFP
+> dataset, which is not distributed with this repository. Set the data path
 > before running.
 
 ---
@@ -78,6 +80,7 @@ Run all cells top-to-bottom; outputs are written to `figures/`.
 | `models.py` | Euler–Maruyama simulation of Kuramoto and Stuart–Landau oscillator networks |
 | `models_setup.py` | Parameter initialisation, delay matrices, and coupling profiles |
 | `utils.py` | JAX-compatible random number generation utilities |
+| `flatmap/` | Macaque cortical flatmap visualisation (area coordinates and outline plotting) |
 
 ---
 
@@ -85,3 +88,9 @@ Run all cells top-to-bottom; outputs are written to `figures/`.
 
 Structural connectivity (FLN matrix, area hierarchy) is derived from Markov et al.
 (2014) and stored in `interareal/` and `data/`.
+
+---
+
+## License
+
+BSD 3-Clause. See [LICENSE](LICENSE) for details.
