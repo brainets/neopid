@@ -1,4 +1,4 @@
-# NeOPID: Neural Oscillatory Partial Information Decomposition
+# Neural Oscillatory Partial Information Decomposition (NeOPID)
 
 Neural Oscillatory Partial Information Decomposition (NeOPID) can be used to break down information about about cognitive variables in neural oscillations into power/phase contributions and to quantify redundant and synergistic information in brain relations, from pairwise to higher-order interactions.NeOPID
 This repository contains the code and notebooks accompanying the paper:
