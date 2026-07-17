@@ -3,4 +3,11 @@
 *.png
 *.pdf
 *.svg
-REVIEWER_RESPONSES.md
+manuscript/
+*.tex
+*.out
+*.log
+*.bib
+*.aux
+*.bbl
+*.blg
