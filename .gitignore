@@ -11,3 +11,4 @@ manuscript/
 *.aux
 *.bbl
 *.blg
+.claude/
