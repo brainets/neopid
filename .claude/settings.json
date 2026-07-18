@@ -3,7 +3,10 @@
     "allow": [
       "Bash(python3 -c ' *)",
       "Bash(pdftoppm -png -r 200 Figure3S2.pdf /private/tmp/claude-501/-Users-vinicius-projects-neopid/565b0003-f91a-4ae5-878b-8e46d76c7714/scratchpad/fig3s2_check)",
-      "Bash(pdflatex -interaction=nonstopmode main.tex)"
+      "Bash(pdflatex -interaction=nonstopmode main.tex)",
+      "Bash(git status *)",
+      "Bash(git config *)",
+      "Bash(git add *)"
     ]
   }
 }
